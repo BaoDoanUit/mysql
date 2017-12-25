@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    
+</head>
+<body>
+    <input type="text" id='user'>
+    <input type="text" id='pass'>
+    <input type="button" id='submit' value='submit'>
+    <script>
+        $(document).ready(
+            $('#submit').click(function() {
+                var user = $('#user').val().toString();
+                var pass = $('#pass').val().toString();
+                console.log(user + " " +pass);
+                $.ajax({
+                    url: "http://localhost:3000/users",
+                    method: 'POST',
+                    // contentType: "application/json",
+                    data: {
+                        user: user,
+                        pass: pass
+                    }
+                }).done(function(data) {
+                    console.log(data);
+                    // $( this ).addClass( "done" );
+                }).fail(function(err) {
+                    console.log(err);
+                });
+            })
+        )
+    </script>
+</body>
+</html>

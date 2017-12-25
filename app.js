@@ -1,18 +1,28 @@
 var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
-var userController = require('./controller/user')
-
-// pool mysql
+var userController = require('./controller/userController')
 
 // define middleware
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+app.use(express.static('public'));
+app.set("view engine", 'ejs');
+app.set('views', './views');
 
-app.route('/')
+// define routes
+app.get('/',function(req,res){
+  res.render('home')
+})
+
+app.route('/users')
   .get(userController.getAll)
-    
+  .post(userController.checkUser)
 
-app.listen('3000','127.0.0.1');
+app.route('/users/:id')
+  .get(userController.getById)
 
+app.listen('3000', function() {
+  console.log('—– server is listening —–');
+});
 
-console.log('—– server is listening —–');
