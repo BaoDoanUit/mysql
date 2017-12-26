@@ -31,30 +31,29 @@ var controllers = {
 
         userModel.checkUser()
         .then(function(values) {
+            //duyet từng user trong data values
+            var userExist ;
             values.forEach(function(user){
                 console.log("User" + user);
+                
                 if (username == user.role_id.toString() && password == user.pass.toString())
                 {
+                    userExist = 1;
+                    // truyen ID vào getByID để lấy data
                     userModel.getByID(req.body.user)
                         .then(function(userData){
                             console.log(userData);
                             res.json({
                                 data: userData[0]
                             });
-                        })
-                        .catch(function(err) {
-                            console.log(err);
-                            res.status(404).json({
-                                data: 'no data'
-                            });
-                        });
-
-                } else{
-                    res.json({
-                        data: 'no data'
-                    })
-                }
+                        })      
+                } 
+               
             })
+            if(userExist != 1)
+            {
+                res.send('log failed')
+            }
         })
         .catch(function(err) {
             console.log(err);
